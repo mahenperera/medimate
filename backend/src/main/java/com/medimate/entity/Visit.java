@@ -1,0 +1,89 @@
+package com.medimate.entity;
+
+import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Entity
+@Table(name = "visits")
+public class Visit {
+
+    @Id
+    @GeneratedValue
+    @UuidGenerator
+    @Column(columnDefinition = "uuid")
+    private UUID id;
+
+    @Column(name = "visit_date")
+    private LocalDateTime visitDate;
+
+    private String diagnosis;
+
+    private String notes;
+
+    @ManyToOne(optional = false)
+    private Patient patient;
+
+    @ManyToOne(optional = false)
+    private Doctor doctor;
+
+    public Visit() {
+    }
+
+    public Visit(LocalDateTime visitDate, String diagnosis, String notes) {
+        this.visitDate = visitDate;
+        this.diagnosis = diagnosis;
+        this.notes = notes;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getVisitDate() {
+        return visitDate;
+    }
+
+    public void setVisitDate(LocalDateTime visitDate) {
+        this.visitDate = visitDate;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+}
+
