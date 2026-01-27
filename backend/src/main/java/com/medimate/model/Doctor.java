@@ -1,4 +1,4 @@
-package com.medimate.entity;
+package com.medimate.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -19,16 +19,11 @@ public class Doctor {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String password; // stored encrypted
-
-    @Column(nullable = false)
-    private String role; // DOCTOR or ADMIN
-
     private String specialization;
+
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private AppUser appUser;
 
     @OneToMany(mappedBy = "doctor")
     private List<Patient> patients;
@@ -36,14 +31,10 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor")
     private List<Medicine> medicines;
 
-    public Doctor() {
-    }
+    public Doctor() {}
 
-    public Doctor(String fullName, String email, String password, String role, String specialization) {
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
+    public Doctor(AppUser appUser, String specialization) {
+        this.appUser = appUser;
         this.specialization = specialization;
     }
 
@@ -63,36 +54,20 @@ public class Doctor {
         this.fullName = fullName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getSpecialization() {
         return specialization;
     }
 
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 
     public List<Patient> getPatients() {
@@ -110,5 +85,15 @@ public class Doctor {
     public void setMedicines(List<Medicine> medicines) {
         this.medicines = medicines;
     }
-}
 
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "id=" + id +
+                ", specialization='" + specialization + '\'' +
+                ", appUser=" + appUser +
+                ", patients=" + patients +
+                ", medicines=" + medicines +
+                '}';
+    }
+}

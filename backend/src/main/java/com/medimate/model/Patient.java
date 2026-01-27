@@ -1,4 +1,4 @@
-package com.medimate.entity;
+package com.medimate.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
@@ -97,6 +97,19 @@ public class Patient {
 
     public void setVisits(List<Visit> visits) {
         this.visits = visits;
+    }
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", phone='" + phone + '\'' +
+                ", doctor=" + doctor +
+                ", visits=" + visits +
+                '}';
     }
 }
 
