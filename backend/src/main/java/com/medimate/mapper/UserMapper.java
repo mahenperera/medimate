@@ -8,12 +8,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public UserDto toUserDto(AppUser user, Doctor doctor) {
-        UserDto dto = new UserDto();
-        dto.setFullName(doctor.getFullName());
-        dto.setEmail(user.getEmail());
-        dto.setSpecialization(doctor.getSpecialization());
+    public UserDto toUserDto(AppUser appUser, Doctor doctor, String token, String message) {
 
-        return dto;
+        UserDto userDto = new UserDto();
+        userDto.setFullName(doctor.getFullName());
+        userDto.setEmail(appUser.getEmail());
+        userDto.setSpecialization(doctor.getSpecialization());
+        userDto.setRole(appUser.getRole());
+        userDto.setToken(token);
+        userDto.setMessage(message);
+
+        return userDto;
     }
 }

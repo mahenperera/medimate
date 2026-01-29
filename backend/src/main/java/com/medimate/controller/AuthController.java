@@ -1,8 +1,8 @@
 package com.medimate.controller;
 
+import com.medimate.dto.LoginDto;
 import com.medimate.dto.RegisterDto;
 import com.medimate.dto.UserDto;
-import com.medimate.model.AppUser;
 import com.medimate.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
 
-    private AuthService authService;
+    private final AuthService authService;
 
-   @Autowired
+    @Autowired
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
@@ -25,8 +25,13 @@ public class AuthController {
         return authService.register(registerDto);
     }
 
-    @GetMapping("/login")
-    public String login() {
-       return "Logged In";
+    @PostMapping("/login")
+    public UserDto login(@RequestBody LoginDto loginDto) {
+        return authService.login(loginDto);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "Test Success";
     }
 }
