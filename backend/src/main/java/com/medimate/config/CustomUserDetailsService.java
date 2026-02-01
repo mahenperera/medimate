@@ -1,4 +1,4 @@
-package com.medimate.security;
+package com.medimate.config;
 
 import com.medimate.model.AppUser;
 import com.medimate.repository.AuthRepository;

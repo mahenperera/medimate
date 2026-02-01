@@ -9,7 +9,7 @@ import com.medimate.model.AppUser;
 import com.medimate.model.Doctor;
 import com.medimate.repository.AuthRepository;
 import com.medimate.repository.DoctorRepository;
-import com.medimate.security.JwtService;
+import com.medimate.config.JwtService;
 import com.medimate.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.*;
@@ -47,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
     public UserDto register(RegisterDto registerDto) {
 
         if (authRepository.existsByEmail(registerDto.getEmail())) {
-            throw new DuplicateEmailException("Email already registered: " + registerDto.getEmail());
+            throw new DuplicateResourceException("Email already registered: " + registerDto.getEmail());
         }
 
         var appUser = new AppUser();
@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         appUser.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         appUser.setRole("USER");
 
-        authRepository.save(appUser);
+        AppUser savedUser = authRepository.save(appUser);
 
         Doctor doctor = new Doctor();
         doctor.setAppUser(appUser);
@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
 
         doctorRepository.save(doctor);
 
-        String token = jwtService.generateToken(appUser.getEmail());
+        String token = jwtService.generateToken(savedUser);
 
         return userMapper.toUserDto(appUser, doctor, token, "Registration successful");
     }
@@ -82,10 +82,12 @@ public class AuthServiceImpl implements AuthService {
 
             if (authentication.isAuthenticated()) {
 
-                String token = jwtService.generateToken(loginDto.getEmail());
-
                 AppUser appUser = authRepository.findByEmail(loginDto.getEmail());
-                Doctor doctor = doctorRepository.findByAppUser(appUser);
+                Doctor doctor = doctorRepository.findByAppUser(appUser)
+                        .orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
+                ;
+
+                String token = jwtService.generateToken(appUser);
 
                 return userMapper.toUserDto(appUser, doctor, token, "Login successful");
             }

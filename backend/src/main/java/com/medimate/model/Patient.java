@@ -26,6 +26,11 @@ public class Patient {
     @Column(nullable = false)
     private String phone;
 
+    @Column(nullable = false, unique = false)
+    private String nic;
+
+    private String email;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
@@ -36,11 +41,13 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(String name, Integer age, String gender, String phone) {
+    public Patient(String name, Integer age, String gender, String phone, String nic, String email) {
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.phone = phone;
+        this.nic = nic;
+        this.email = email;
     }
 
     public UUID getId() {
@@ -83,6 +90,22 @@ public class Patient {
         this.phone = phone;
     }
 
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public Doctor getDoctor() {
         return doctor;
     }
@@ -107,6 +130,8 @@ public class Patient {
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 ", phone='" + phone + '\'' +
+                ", nic='" + nic + '\'' +
+                ", email='" + email + '\'' +
                 ", doctor=" + doctor +
                 ", visits=" + visits +
                 '}';
