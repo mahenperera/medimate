@@ -40,10 +40,17 @@ public class PatientController {
         return new ResponseEntity<>(patient, HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<PatientResponseDto> updatePatient(@PathVariable UUID id,
                                                             @RequestBody PatientRequestDto dto) {
         PatientResponseDto patient = patientService.updatePatient(id, dto);
+        return new ResponseEntity<>(patient, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<PatientResponseDto> patchPatient(@PathVariable UUID id,
+                                                           @RequestBody PatientRequestDto dto) {
+        PatientResponseDto patient = patientService.patchPatient(id, dto);
         return new ResponseEntity<>(patient, HttpStatus.OK);
     }
 

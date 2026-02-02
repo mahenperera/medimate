@@ -79,7 +79,25 @@ public class PatientServiceImpl implements PatientService {
             throw new DuplicateResourceException("Patient with this NIC already exists");
         }
 
-        patientMapper.partialUpdatePatient(patient, dto);
+        patientMapper.updatePatient(patient, dto);
+        Patient updatedPatient = patientRepository.save(patient);
+
+        return patientMapper.toResponseDto(updatedPatient);
+    }
+
+    @Override
+    @Transactional
+    public PatientResponseDto patchPatient(UUID patientId, PatientRequestDto dto) {
+
+        Doctor doctor = authUtil.getLoggedInDoctor();
+        Patient patient = authUtil.getPatientByIdAndDoctor(patientId, doctor);
+
+        if (!patient.getNic().equals(dto.getNic()) &&
+                patientRepository.existsByNicAndDoctor(dto.getNic(), doctor)) {
+            throw new DuplicateResourceException("Patient with this NIC already exists");
+        }
+
+        patientMapper.patchPatient(patient, dto);
         Patient updatedPatient = patientRepository.save(patient);
 
         return patientMapper.toResponseDto(updatedPatient);
@@ -90,8 +108,8 @@ public class PatientServiceImpl implements PatientService {
     public void deletePatient(UUID patientId) {
 
         Doctor doctor = authUtil.getLoggedInDoctor();
-
         Patient patient = authUtil.getPatientByIdAndDoctor(patientId, doctor);
+
         patientRepository.delete(patient);
     }
 }

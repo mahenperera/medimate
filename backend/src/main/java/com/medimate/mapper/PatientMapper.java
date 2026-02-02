@@ -37,7 +37,7 @@ public class PatientMapper {
         patient.setEmail(dto.getEmail());
     }
 
-    public void partialUpdatePatient(Patient patient, PatientRequestDto dto) {
+    public void patchPatient(Patient patient, PatientRequestDto dto) {
 
         if (dto.getName() != null) patient.setName(dto.getName());
         if (dto.getAge() != null) patient.setAge(dto.getAge());

@@ -24,18 +24,32 @@ public class Visit {
     private String notes;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
+
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void setCreatedAt() {
+        this.createdAt = LocalDateTime.now();
+        if (this.visitDate == null) {
+            this.visitDate = LocalDateTime.now();
+        }
+    }
 
     public Visit() {
     }
 
-    public Visit(LocalDateTime visitDate, String diagnosis, String notes) {
+    public Visit(LocalDateTime visitDate, String diagnosis, String notes, LocalDateTime createdAt) {
         this.visitDate = visitDate;
         this.diagnosis = diagnosis;
         this.notes = notes;
+        this.createdAt = createdAt;
     }
 
     public UUID getId() {
@@ -86,6 +100,14 @@ public class Visit {
         this.doctor = doctor;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
         return "Visit{" +
@@ -95,6 +117,7 @@ public class Visit {
                 ", notes='" + notes + '\'' +
                 ", patient=" + patient +
                 ", doctor=" + doctor +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
