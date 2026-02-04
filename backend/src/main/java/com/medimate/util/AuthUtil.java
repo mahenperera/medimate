@@ -2,12 +2,10 @@ package com.medimate.util;
 
 import com.medimate.exception.ResourceNotFoundException;
 import com.medimate.model.Doctor;
+import com.medimate.model.Medicine;
 import com.medimate.model.Patient;
 import com.medimate.model.Visit;
-import com.medimate.repository.AuthRepository;
-import com.medimate.repository.DoctorRepository;
-import com.medimate.repository.PatientRepository;
-import com.medimate.repository.VisitRepository;
+import com.medimate.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,16 +21,19 @@ public class AuthUtil {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
     private final VisitRepository visitRepository;
+    private final MedicineRepository medicineRepository;
 
     @Autowired
     public AuthUtil(AuthRepository authRepository,
                     DoctorRepository doctorRepository,
                     PatientRepository patientRepository,
-                    VisitRepository visitRepository) {
+                    VisitRepository visitRepository,
+                    MedicineRepository medicineRepository) {
         this.authRepository = authRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.visitRepository = visitRepository;
+        this.medicineRepository = medicineRepository;
     }
 
     public String getLoggedInEmail() {
@@ -69,5 +70,10 @@ public class AuthUtil {
     public Visit getVisitByIdAndDoctor(UUID visitId, Doctor doctor) {
         return visitRepository.findByIdAndDoctor(visitId, doctor)
                 .orElseThrow(() -> new ResourceNotFoundException("Visit not found"));
+    }
+
+    public Medicine getMedicineByIdAndDoctor(UUID medicineId, Doctor doctor) {
+        return medicineRepository.findByIdAndDoctor(medicineId, doctor)
+                .orElseThrow(() -> new ResourceNotFoundException("Medicine not found"));
     }
 }

@@ -84,8 +84,9 @@ public class VisitServiceImpl implements VisitService {
 
         Doctor doctor = authUtil.getLoggedInDoctor();
         Visit visit = authUtil.getVisitByIdAndDoctor(visitId, doctor);
+        Patient patient = authUtil.getPatientByIdAndDoctor(dto.getPatientId(), doctor);
 
-        visitMapper.updateVisit(visit, dto);
+        visitMapper.updateVisit(visit, dto, patient);
         Visit updatedVisit = visitRepository.save(visit);
 
         return visitMapper.toResponseDto(updatedVisit);
@@ -98,7 +99,12 @@ public class VisitServiceImpl implements VisitService {
         Doctor doctor = authUtil.getLoggedInDoctor();
         Visit visit = authUtil.getVisitByIdAndDoctor(visitId, doctor);
 
-        visitMapper.patchVisit(visit, dto);
+        Patient patient = null;
+        if (dto.getPatientId() != null) {
+            patient = authUtil.getPatientByIdAndDoctor(dto.getPatientId(), doctor);
+        }
+
+        visitMapper.patchVisit(visit, dto, patient);
         Visit updatedVisit = visitRepository.save(visit);
 
         return visitMapper.toResponseDto(updatedVisit);

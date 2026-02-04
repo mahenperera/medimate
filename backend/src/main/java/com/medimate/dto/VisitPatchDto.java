@@ -1,12 +1,22 @@
 package com.medimate.dto;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class VisitPatchDto {
 
+    private UUID patientId;
     private LocalDateTime visitDate;
     private String diagnosis;
     private String notes;
+
+    public UUID getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(UUID patientId) {
+        this.patientId = patientId;
+    }
 
     public LocalDateTime getVisitDate() {
         return visitDate;

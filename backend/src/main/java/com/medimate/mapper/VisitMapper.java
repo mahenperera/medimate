@@ -27,18 +27,20 @@ public class VisitMapper {
         return visit;
     }
 
-    public void updateVisit(Visit visit, VisitRequestDto dto) {
+    public void updateVisit(Visit visit, VisitRequestDto dto, Patient patient) {
 
         visit.setVisitDate(dto.getVisitDate());
         visit.setDiagnosis(dto.getDiagnosis());
         visit.setNotes(dto.getNotes());
+        visit.setPatient(patient);
     }
 
-    public void patchVisit(Visit visit, VisitPatchDto dto) {
+    public void patchVisit(Visit visit, VisitPatchDto dto, Patient patient) {
 
         if (dto.getVisitDate() != null) visit.setVisitDate(dto.getVisitDate());
         if (dto.getDiagnosis() != null) visit.setDiagnosis(dto.getDiagnosis());
         if (dto.getNotes() != null) visit.setNotes(dto.getNotes());
+        if (patient != null) visit.setPatient(patient);
     }
 
     public VisitResponseDto toResponseDto(Visit visit) {

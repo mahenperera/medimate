@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,20 +22,25 @@ public class Medicine {
 
     private Integer quantity;
 
-    @Column(name = "expiry_date")
-    private LocalDate expiryDate;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void setCreatedAt() {
+        this.createdAt = LocalDateTime.now();
+    }
+
     public Medicine() {
     }
 
-    public Medicine(String name, Integer quantity, LocalDate expiryDate) {
+    public Medicine(String name, Integer quantity, LocalDate expiryDate, LocalDateTime createdAt) {
         this.name = name;
         this.quantity = quantity;
-        this.expiryDate = expiryDate;
+        this.createdAt = createdAt;
     }
 
     public UUID getId() {
@@ -61,14 +67,6 @@ public class Medicine {
         this.quantity = quantity;
     }
 
-    public LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
     public Doctor getDoctor() {
         return doctor;
     }
@@ -77,14 +75,22 @@ public class Medicine {
         this.doctor = doctor;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
         return "Medicine{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", quantity=" + quantity +
-                ", expiryDate=" + expiryDate +
                 ", doctor=" + doctor +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
