@@ -3,6 +3,8 @@ package com.medimate.dto;
 public class MedicinePatchDto {
 
     private String name;
+    private String form;
+    private String dosage;
     private Integer quantity;
 
     public String getName() {
@@ -11,6 +13,22 @@ public class MedicinePatchDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
     }
 
     public Integer getQuantity() {

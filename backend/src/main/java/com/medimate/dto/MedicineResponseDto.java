@@ -7,6 +7,8 @@ public class MedicineResponseDto {
 
     private UUID id;
     private String name;
+    private String form;
+    private String dosage;
     private Integer quantity;
     private LocalDateTime createdAt;
 
@@ -24,6 +26,22 @@ public class MedicineResponseDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
     }
 
     public Integer getQuantity() {

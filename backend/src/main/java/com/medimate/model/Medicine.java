@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "medicines")
+@Table(name = "medicines",
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {"name", "form", "dosage", "doctor_id"}
+        ))
 public class Medicine {
 
     @Id
@@ -19,6 +22,12 @@ public class Medicine {
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String form;
+
+    @Column(nullable = false)
+    private String dosage;
 
     private Integer quantity;
 
@@ -37,10 +46,11 @@ public class Medicine {
     public Medicine() {
     }
 
-    public Medicine(String name, Integer quantity, LocalDate expiryDate, LocalDateTime createdAt) {
+    public Medicine(String name, String form, String dosage, Integer quantity) {
         this.name = name;
+        this.form = form;
+        this.dosage = dosage;
         this.quantity = quantity;
-        this.createdAt = createdAt;
     }
 
     public UUID getId() {
@@ -57,6 +67,22 @@ public class Medicine {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
     }
 
     public Integer getQuantity() {
@@ -88,6 +114,8 @@ public class Medicine {
         return "Medicine{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", form='" + form + '\'' +
+                ", dosage='" + dosage + '\'' +
                 ", quantity=" + quantity +
                 ", doctor=" + doctor +
                 ", createdAt=" + createdAt +

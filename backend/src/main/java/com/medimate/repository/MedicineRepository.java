@@ -14,5 +14,5 @@ public interface MedicineRepository extends JpaRepository<Medicine, UUID> {
 
     Optional<Medicine> findByIdAndDoctor(UUID id, Doctor doctor);
 
-    Optional<Medicine> findByNameAndDoctor(String name, Doctor doctor);
+    boolean existsByNameAndFormAndDosageAndDoctor(String name, String form, String dosage, Doctor doctor);
 }

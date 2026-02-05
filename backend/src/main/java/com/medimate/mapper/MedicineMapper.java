@@ -18,6 +18,8 @@ public class MedicineMapper {
         Medicine medicine = new Medicine();
 
         medicine.setName(dto.getName());
+        medicine.setForm(dto.getForm());
+        medicine.setDosage(dto.getDosage());
         medicine.setQuantity(dto.getQuantity());
         medicine.setDoctor(doctor);
 
@@ -27,12 +29,16 @@ public class MedicineMapper {
     public void updateMedicine(Medicine medicine, MedicineRequestDto dto) {
 
         medicine.setName(dto.getName());
+        medicine.setForm(dto.getForm());
+        medicine.setDosage(dto.getDosage());
         medicine.setQuantity(dto.getQuantity());
     }
 
     public void patchMedicine(Medicine medicine, MedicinePatchDto dto) {
 
         if (dto.getName() != null) medicine.setName(dto.getName());
+        if (dto.getForm() != null) medicine.setForm(dto.getForm());
+        if (dto.getDosage() != null) medicine.setDosage(dto.getDosage());
         if (dto.getQuantity() != null) medicine.setQuantity(dto.getQuantity());
     }
 
@@ -41,6 +47,8 @@ public class MedicineMapper {
 
         dto.setId(medicine.getId());
         dto.setName(medicine.getName());
+        dto.setForm(medicine.getForm());
+        dto.setDosage(medicine.getDosage());
         dto.setQuantity(medicine.getQuantity());
         dto.setCreatedAt(medicine.getCreatedAt());
 
