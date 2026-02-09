@@ -29,9 +29,4 @@ public class AuthController {
     public UserDto login(@RequestBody LoginDto loginDto) {
         return authService.login(loginDto);
     }
-
-    @GetMapping("/test")
-    public String test() {
-        return "Test Success";
-    }
 }

@@ -1,10 +1,7 @@
 package com.medimate.util;
 
 import com.medimate.exception.ResourceNotFoundException;
-import com.medimate.model.Doctor;
-import com.medimate.model.Medicine;
-import com.medimate.model.Patient;
-import com.medimate.model.Visit;
+import com.medimate.model.*;
 import com.medimate.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,18 +19,21 @@ public class AuthUtil {
     private final PatientRepository patientRepository;
     private final VisitRepository visitRepository;
     private final MedicineRepository medicineRepository;
+    private final PrescriptionRepository prescriptionRepository;
 
     @Autowired
     public AuthUtil(AuthRepository authRepository,
                     DoctorRepository doctorRepository,
                     PatientRepository patientRepository,
                     VisitRepository visitRepository,
-                    MedicineRepository medicineRepository) {
+                    MedicineRepository medicineRepository,
+                    PrescriptionRepository prescriptionRepository) {
         this.authRepository = authRepository;
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;
         this.visitRepository = visitRepository;
         this.medicineRepository = medicineRepository;
+        this.prescriptionRepository = prescriptionRepository;
     }
 
     public String getLoggedInEmail() {
@@ -75,5 +75,10 @@ public class AuthUtil {
     public Medicine getMedicineByIdAndDoctor(UUID medicineId, Doctor doctor) {
         return medicineRepository.findByIdAndDoctor(medicineId, doctor)
                 .orElseThrow(() -> new ResourceNotFoundException("Medicine not found"));
+    }
+
+    public Prescription getPrescriptionByIdAndDoctor(UUID prescriptionId, Doctor doctor) {
+        return prescriptionRepository.findByIdAndDoctor(prescriptionId, doctor)
+                .orElseThrow(() -> new ResourceNotFoundException("Prescription not found"));
     }
 }

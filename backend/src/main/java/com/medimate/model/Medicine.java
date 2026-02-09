@@ -3,7 +3,6 @@ package com.medimate.model;
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
